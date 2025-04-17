@@ -15,6 +15,17 @@
     animation: fadeIn 0.3s ease forwards;
 }
 
+.infoBox {
+    position: absolute;
+    bottom: 16px;
+    right: 24px;
+    color: #fff;
+}
+
+.title {
+    font-size: 24px;
+}
+
 .modalImage {
     max-width: 90%;
     max-height: 90%;

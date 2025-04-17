@@ -1,35 +1,87 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.module.css';
+import SearchBar from './components/SearchBar/SearchBar.jsx';
+import { useEffect, useState } from 'react';
+import { Loader } from './components/Loader/Loader.jsx';
+import { fetchImageWithQuery } from './unsplash-api.js';
+import { ImageGallery } from './components/ImageGallery/ImageGallery.jsx';
+import ImageModal from './components/ImageModal/ImageModal.jsx';
+import { ErrorMessage } from './components/ErrorMessage/ErrorMessage.jsx';
+import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [images, setImages] = useState([]); // for images request
+  const [loading, setLoading] = useState(false); // show loader
+  const [error, setError] = useState(null); // for error
+  const [noResults, setNoResults] = useState(false); // if no results...
+  const [page, setPage] = useState(1); // state for current page pagination
+  const [searchQuery, setSearchQuery] = useState(''); // search field state
+  const [selectedImage, setSelectedImage] = useState(null); // state for modal
 
+  const handleSearch = async (query, page) => {
+    try {
+      setLoading(true);
+      const results = await fetchImageWithQuery(query, page);
+
+      if (results.length === 0) {
+        setNoResults(true);
+        return;
+      }
+
+      setNoResults(false);
+
+      if (page === 1) {
+        setImages(results);
+      } else {
+        setImages((prev) => [...prev, ...results]);
+      }
+    } catch (e) {
+      setError('Oops! Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMoreBtn = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  const handleFormSubmit = (query) => {
+    setSearchQuery(query);
+    setPage(1);
+    setImages([]);
+    setError(null);
+    setNoResults(false);
+  };
+
+  useEffect(() => {
+    if (searchQuery === '') return;
+
+    handleSearch(searchQuery, page);
+  }, [searchQuery, page]);
+
+  const handleModalOpen = (item) => {
+    setSelectedImage(item);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImage(null);
+  };
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <SearchBar onSearch={handleFormSubmit} onError={setError} />
+      {error && <ErrorMessage message={error} />}
+      {noResults && (
+        <ErrorMessage message="No images found. Try another search!" />
+      )}
+      {loading && <Loader />}
+      {images.length > 0 && (
+        <ImageGallery items={images} onImageClick={handleModalOpen} />
+      )}
+      {images.length > 0 && <LoadMoreBtn loadMore={handleMoreBtn} />}
+      {selectedImage && (
+        <ImageModal item={selectedImage} onClose={handleCloseModal} />
+      )}
     </>
-  )
-}
-
-export default App
+  );
+};
+export default App;

@@ -15,7 +15,7 @@
 .cardItem {
     display: flex;
     align-items: center;
-    height: 220px;
+    height: 200px;
     width: 320px;
     overflow: hidden;
     border-radius: 5px;

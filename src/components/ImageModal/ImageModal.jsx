@@ -1,26 +1,30 @@
 import css from './ImageModal.module.css';
+import ReactModal from 'react-modal';
 
 const ImageModal = ({ item, onClose }) => {
   return (
-    <div onClick={onClose} className={css.backdrop}>
-      <div className={css.imageContainer}>
-        <img
-          src={item.urls.regular}
-          alt={item.alt_description || 'image'}
-          className={css.modalImage}
-          onClick={(e) => e.stopPropagation()}
-        />
-        <div className={css.infoBox}>
-          <p>Author: {item.user?.name || 'Unknown'}</p>
-          {item.user?.instagram_username && (
-            <p className={css.social}>
-              instagram: @{item.user?.instagram_username}
-            </p>
-          )}
-          <p>Likes❤️: {item.likes}</p>
-        </div>
+    <ReactModal
+      style={{
+        content: {
+          overflow: 'hidden',
+          borderRadius: '5px',
+        },
+      }}
+      isOpen={item}
+      onRequestClose={onClose}
+      contentLabel="image modal"
+      overlayClassName={css.backdrop}
+      shouldCloseOnOverlayClick={true}
+    >
+      <img
+        src={item.urls.regular}
+        alt={item.alt_description || 'image'}
+        className={css.modalImage}
+      />
+      <div className={css.author}>
+        <p>Author: {item.user?.name || 'Unknown'}</p>
       </div>
-    </div>
+    </ReactModal>
   );
 };
 export default ImageModal;

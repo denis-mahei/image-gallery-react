@@ -15,15 +15,11 @@
     animation: fadeIn 0.3s ease forwards;
 }
 
-.infoBox {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 6px 10px;
-    font-size: 14px;
-    border-radius: 4px;
+.author {
+    font-size: 16px;
+
+    color: #212121;
+    text-align: right;
 }
 
 .imageContainer {

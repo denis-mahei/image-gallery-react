@@ -22,5 +22,8 @@ Uses the Unsplash API to fetch and display beautiful images with real-time searc
 
 🌐 Deployment
 
+Live: goit-react-hw-04-psi-pied.vercel.app
 
+📬 Contact
 
+Created by [Denys Mahei](https://github.com/denis-mahei) — feel free to reach out!

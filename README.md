@@ -1,3 +1,26 @@
-# React + Vite
+# 📸 Image Gallery App
 
-# goit-react-hw-04
+A responsive image search gallery built with JavaScript.  
+Uses the Unsplash API to fetch and display beautiful images with real-time search, modals, and pagination.
+
+## 🚀 Features
+
+- 🔍 Real-time image search
+- 🖼️ Modal view for full-size images
+- 📃 Pagination with "Load more" button
+- 💾 Data caching & localStorage
+- ✨ Smooth animations and hover effects
+- ☀️ Clean and responsive UI
+
+## 🛠️ Tech Stack
+
+- HTML, CSS
+- JavaScript (ES6+)
+- Axios
+- Unsplash API
+- Vite
+
+🌐 Deployment
+
+
+
